@@ -3,18 +3,20 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.stubbing.OngoingStubbing;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(MockitoExtension.class)
 class RestaurantTest {
     Restaurant restaurant;
     LocalTime openingTime;
     LocalTime closingTime;
-    
+
     //>>>>>>>>>>>>>>>>>>>>>>>>>OPEN/CLOSED<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     @BeforeEach
     public void setup() {
@@ -80,6 +82,17 @@ class RestaurantTest {
 
         assertThrows(itemNotFoundException.class,
                 ()->restaurant.removeFromMenu("French fries"));
+    }
+    @Test
+    public void total_order_amount_calculation_when_valid_items_are_provided() {
+        List<String> orderedItems = new ArrayList<String>();
+        orderedItems.add("Sweet corn soup");
+        orderedItems.add("Vegetable lasagne");
+
+        int orderTotal;
+        orderTotal = restaurant.calculateOrderValue(orderedItems);
+        assertEquals(388, orderTotal);
+
     }
     //<<<<<<<<<<<<<<<<<<<<<<<MENU>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 }
